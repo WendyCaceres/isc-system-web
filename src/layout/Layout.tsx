@@ -48,14 +48,16 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const Layout = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
   const { clearUser, user } = useUserStore();
-  console.log(user);
   const settings = [
-    { title: "Perfil", onClick: () => {
-      navigate("/profile");
-    } },
+    {
+      title: "Perfil",
+      onClick: () => {
+        navigate("/profile");
+      },
+    },
     {
       title: "Logout",
       onClick: () => {
@@ -101,15 +103,27 @@ const Layout = () => {
           </IconButton>
           <Box sx={{ flexGrow: 1 }} />
           <Box mr={2}>
-            <Typography variant="subtitle1" noWrap color="primary" textAlign={"right"} className="font-bold">
+            <Typography
+              variant="subtitle1"
+              noWrap
+              color="primary"
+              textAlign={"right"}
+              className="font-bold"
+            >
               {user?.name}
             </Typography>
-            <Typography variant="subtitle2" color="textSecondary" textAlign={"right"}>
-              {user?.role}
+            <Typography
+              variant="subtitle2"
+              color="textSecondary"
+              textAlign={"right"}
+            >
+              {user?.roles}
             </Typography>
           </Box>
 
-          <Tooltip title="Open settings">
+          <Tooltip 
+            data-test-id="user_icon"
+            title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Avatar alt={user?.name} src="/static/images/avatar/2.jpg" />
             </IconButton>
@@ -131,7 +145,10 @@ const Layout = () => {
             onClose={handleCloseUserMenu}
           >
             {settings.map((setting) => (
-              <MenuItem key={setting.title} onClick={setting.onClick}>
+              <MenuItem
+                key={setting.title}
+                data-test-id={setting.title === "Logout" ? "logout_button" : undefined}
+                onClick={setting.onClick}>
                 <Typography textAlign="center">{setting.title}</Typography>
               </MenuItem>
             ))}

@@ -1,14 +1,13 @@
-version: '3.9'
-
-services: 
-  db:
-    image: postgres:12-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-      POSTGRES_HOST_AUTH_METHOD: trust
+version: '3.8'
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
     ports:
-      - "5466:5432"
-    # volumes:
-    #   - ./data/sql/:/var/lib/postgresql/data
+      - 8080:8080
+      - 50000:50000
+    container_name: jenkins
+    volumes:
+      # - /home/plandaeta/jenkins_compose/jenkins_configuration:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
